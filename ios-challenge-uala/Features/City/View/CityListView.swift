@@ -46,8 +46,7 @@ struct CityListView: View {
         //        }
         //        else {
         GeometryReader { geometry in
-            let isLandscape = geometry.size.width > geometry.size.height
-            
+            let isLandscape = geometry.size.width > geometry.size.height // Using GeometryReader to detect landscape mode despite the device
             NavigationStack{
                 Group {
                     if isLandscape {      // Landscape mode.
@@ -69,14 +68,17 @@ struct CityListView: View {
                                     }
                                 }
                             }
-                            .frame(maxWidth: .infinity)
+                            .frame(maxWidth: geometry.size.width / 2)
                             .listStyle(.plain)
+                            
+                            Spacer()
                             
                             if let selected = selectedCity {
                                 CityMapView(city: selected)
                                     .frame(maxWidth: .infinity)
                             } else {
                                 Text("Select city")
+                                Spacer()
                             }
                         }
                     } else {

@@ -16,7 +16,7 @@ enum NetworkError: Error {
 }
 
 class APIservice: Codable {
-    func downloadData<T: Codable>(fromURL: String, apiKey: String? = nil) async -> T? {
+    func downloadData<T: Codable>(fromURL: String, apiKey: String? = nil, rapidApiKey: String? = nil, host: String? = nil) async -> T? {
         do {
             guard let url = URL(string: fromURL) else { throw NetworkError.badUrl }
             var request = URLRequest(url: url)
@@ -24,8 +24,11 @@ class APIservice: Codable {
             if let apiKey {
                 request.setValue(apiKey, forHTTPHeaderField: "x-api-key")
             }
-            
-            let (data, response) = try await URLSession.shared.data(from: url)
+            if let rapidApiKey {
+                request.setValue(rapidApiKey, forHTTPHeaderField: "x-rapidapi-key")
+                request.setValue(host, forHTTPHeaderField: "x-rapidapi-host")
+            }
+            let (data, response) = try await URLSession.shared.data(for: request)
             guard let response = response as? HTTPURLResponse else { throw NetworkError.badResponse }
             guard response.statusCode >= 200 && response.statusCode < 300 else { throw NetworkError.badStatus }
             let decoder = JSONDecoder()

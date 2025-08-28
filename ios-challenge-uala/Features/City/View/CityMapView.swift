@@ -12,10 +12,12 @@ struct CityMapView: View {
     
     var city: City
     @State var weatherViewModel = WeatherViewModel()
+    @State var detailsViewModel = CityDetailsViewModel()
+    @State private var cityName: String = "Loading..."
     
     @State private var mapPosition = MapCameraPosition.region(
         MKCoordinateRegion(
-            center: CLLocationCoordinate2D(latitude: -58, longitude: -34),
+            center: CLLocationCoordinate2D(latitude:-34.606633, longitude: -58.435344),
             span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
         )
     )
@@ -29,16 +31,25 @@ struct CityMapView: View {
             }
             .task {
                 try? await weatherViewModel.fetchWeather(city: city)
+                try? await detailsViewModel.fetchCityDetails(city: city)
             }
             .safeAreaInset(edge:.top, alignment: .trailing, content: {
                 WeatherViewOnMap(cityWeather: weatherViewModel.weather, viewModel: weatherViewModel)
                     .padding()
                 }
             )
+            .safeAreaInset(edge: .bottom, content: {
+                CityDetailView(viewModel: detailsViewModel)
+                    .padding()
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                
+            
+            })
             .onChange(of: city) {
                 mapPosition = getPosition()
                 Task {
                     try? await weatherViewModel.fetchWeather(city: city)
+                    try? await detailsViewModel.fetchCityDetails(city: city)
                 }
             }
             
@@ -57,7 +68,6 @@ struct CityMapView: View {
 
 extension CityMapView {
     
-    
     func getPosition() -> MapCameraPosition {
         
         let lat = Double(city.coord.lat)
@@ -69,5 +79,10 @@ extension CityMapView {
                 span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             )
         )
+    }
+    
+    func fetchDetails() async {
+        try? await weatherViewModel.fetchWeather(city: city)
+        try? await detailsViewModel.fetchCityDetails(city: city)
     }
 }

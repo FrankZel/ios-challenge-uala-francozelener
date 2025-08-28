@@ -53,6 +53,7 @@ struct RoundedBackgroundModifier: ViewModifier {
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .fill(backgroundColor)
                     .opacity(opacity)
+                    .shadow(radius: 4)
             )
     }
 }
@@ -70,7 +71,3 @@ extension View {
         ))
     }
 }
-
-//#Preview {
-//    WeatherViewOnMap(cityWeather: <#WeatherModel#>, viewModel: <#WeatherViewModel#>)
-//}
