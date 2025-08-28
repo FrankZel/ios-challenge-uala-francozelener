@@ -148,6 +148,7 @@ Sydney, AU
 ---
 
 > Good luck 🚀
+> (Transcripto del pdf provisto con chatgpt)
 
 
 # Solución
