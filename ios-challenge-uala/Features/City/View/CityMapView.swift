@@ -22,7 +22,6 @@ struct CityMapView: View {
     
     var body: some View {
         ZStack {
-            
             Map(position: $mapPosition) {
             }
             .onAppear {
@@ -36,7 +35,19 @@ struct CityMapView: View {
                     .padding()
                 }
             )
+            .onChange(of: city) {
+                mapPosition = getPosition()
+                Task {
+                    try? await weatherViewModel.fetchWeather(city: city)
+                }
+            }
+            
         }
+        .toolbar(content: {
+            ToolbarItem(placement: .principal) {
+                Text(city.name)
+            }
+        })
     }
 }
 
