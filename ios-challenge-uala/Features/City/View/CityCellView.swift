@@ -18,7 +18,6 @@ struct CityCellView: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-//                NavigationLink(value: city) {
                     VStack (alignment: .leading) {
                         Text("\(city.name), \(city.country)")
                             .font(.body)
@@ -27,7 +26,6 @@ struct CityCellView: View {
                             .font(.footnote)
                             .foregroundColor(Color(.secondaryLabel))
                     }.padding()
-//                }
             }
             
             Spacer()

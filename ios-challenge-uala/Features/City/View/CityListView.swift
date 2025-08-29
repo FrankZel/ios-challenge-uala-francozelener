@@ -9,42 +9,12 @@ import SwiftUI
 
 struct CityListView: View {
     
-    //    @State private var visibility: NavigationSplitViewVisibility = .doubleColumn
     @Environment(\.horizontalSizeClass) var hSize
     @State private var model = CityViewModel()
     @State private var selectedCity: City?
     
     var body: some View {
-        //        if UIDevice.current.userInterfaceIdiom == .pad {
-        //            NavigationSplitView(columnVisibility: $visibility) {
-        //                List(selection: $selectedCity) {
-        //                    if model.isloading {
-        //                        ForEach(0..<10) { _ in
-        //                            Text("Loading...")
-        //                                .redacted(reason: .placeholder)
-        //                        }
-        //                    } else {
-        //                        ForEach(model.filteredCities) { city in
-        //                            CityCellView(city: city, viewModel: model)
-        //                        }
-        //                    }
-        //                }
-        //                .navigationTitle("Cities")
-        //                .navigationBarItems(trailing:
-        //                                        Toggle(isOn: $model.showOnlyFavourites) {
-        //                    Text("Show favourites")
-        //                }
-        //                    .toggleStyle(.button)
-        //                )
-        //            } detail: {
-        //                if let selectedCity{
-        //                    CityMapView(city: selectedCity)
-        //                }
-        //            }
-        //            .navigationSplitViewStyle(.balanced)
-        //            .searchable(text: $model.searchText)
-        //        }
-        //        else {
+
         GeometryReader { geometry in
             let isLandscape = geometry.size.width > geometry.size.height // Using GeometryReader to detect landscape mode despite the device
             NavigationStack{
